@@ -1,0 +1,2 @@
+i386/qwerty/us
+i386/qwerty/es

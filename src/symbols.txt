@@ -1,0 +1,91 @@
+a a A
+ampersand &
+apostrophe '
+asciitilde ~
+asterisk *
+at @
+b b B
+backslash \
+bar |
+braceleft {
+braceright }
+bracketleft [
+bracketright ]
+c c C
+ccedilla ç Ç
+Ccedilla Ç ç
+colon :
+comma ,
+d d D
+dollar $
+e e E
+eight 8
+equal =
+exclam !
+exclamdown ¡
+f f F
+five 5
+four 4
+g g G
+greater >
+h h H
+i i I
+j j J
+k k K
+KP_0 0
+KP_1 1
+KP_2 2
+KP_3 3
+KP_4 4
+KP_5 5
+KP_6 6
+KP_7 7
+KP_8 8
+KP_9 9
+KP_Add +
+KP_Divide /
+KP_Multiply *
+KP_Period .
+KP_Substract -
+l l L
+less <
+m m M
+masculine º
+minus -
+n n N
+nine 9
+notsign ¬
+ntilde ñ Ñ
+Ntilde Ñ ñ
+numbersign #
+o o O
+one 1
+ordfemenine ª
+p p P
+parenleft (
+parenright )
+percent %
+period .
+periodcentered ·
+plus +
+q q Q
+question ?
+questiondown ¿
+quotedbl "
+r r R
+s s S
+semicolon ;
+seven 7
+six 6
+slash /
+t t T
+three 3
+two 2
+u u U
+underscore _
+v v V
+w w W
+x x X
+y y Y
+z z Z
+zero 0
