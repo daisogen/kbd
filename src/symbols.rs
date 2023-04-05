@@ -1,20 +1,15 @@
 // This is for translating keys ("Escape", "bracketleft") to symbols ("ñ", "[")
 
-use lazy_static::lazy_static;
 use std::collections::HashMap;
 use std::string::String;
 use std::string::ToString;
-use std::sync::Mutex;
+use std::sync::OnceLock;
 
 static RAW_SYMBOLS: &str = include_str!("symbols.txt");
-
-// This should totally be a OnceCell
-lazy_static! {
-    static ref SYMBOLS: Mutex<HashMap<String, [char; 2]>> = Mutex::new(HashMap::new());
-}
+static SYMBOLS: OnceLock<HashMap<String, [char; 2]>> = OnceLock::new();
 
 pub fn init() {
-    let mut locked = SYMBOLS.lock();
+    let mut symbols: HashMap<String, [char; 2]> = HashMap::new();
     for i in RAW_SYMBOLS.lines() {
         let mut parts = i.split(" ");
         let name = parts.next().unwrap().to_string();
@@ -23,13 +18,14 @@ pub fn init() {
             parts.next().unwrap_or("\0").chars().next().unwrap(),
         ];
 
-        locked.insert(name, chars);
+        symbols.insert(name, chars);
     }
+
+    SYMBOLS.get_or_init(|| symbols);
 }
 
 pub fn get(key: &str, mayus: bool) -> Option<char> {
-    let locked = SYMBOLS.lock();
-    let opts = locked.get(key);
+    let opts = SYMBOLS.get().unwrap().get(key);
     let Some(opts) = opts else {
         return None;
     };
