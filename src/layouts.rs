@@ -8,15 +8,16 @@ use std::sync::OnceLock;
 use tar_no_std::TarArchiveRef;
 
 static RAW_LAYOUTS: &[u8] = include_bytes!("keymaps.tar");
+static TAR: OnceLock<TarArchiveRef> = OnceLock::new();
 
 type Layout = HashMap<u8, [String; 5]>;
 static LAYOUTS: OnceLock<HashMap<String, Layout>> = OnceLock::new();
 static SELECTED: Mutex<String> = Mutex::new(String::new());
 
 pub fn init() {
-    let archive = TarArchiveRef::new(RAW_LAYOUTS);
+    TAR.get_or_init(|| TarArchiveRef::new(RAW_LAYOUTS));
     let mut layouts: HashMap<String, Layout> = HashMap::new();
-    for i in archive.entries() {
+    for i in TAR.get().unwrap().entries() {
         let name = i.filename();
         let name = name.split(".").next().unwrap();
         let data = i.data_as_str().unwrap();
@@ -51,10 +52,10 @@ pub fn init() {
     LAYOUTS.get_or_init(|| layouts);
 }
 
-pub fn get(keycode: u8, variant: usize) -> Option<String> {
-    // TODO: this is clearly a temporal solution
-    let opts = LAYOUTS.get().unwrap()[&*SELECTED.lock().unwrap()].get(&keycode)?;
-    let ret = opts[variant].clone();
+pub fn get(keycode: u8, variant: usize) -> Option<&'static String> {
+    let selected = &*SELECTED.lock().unwrap();
+    let opts = LAYOUTS.get().unwrap()[selected].get(&keycode)?;
+    let ret = &opts[variant];
 
     if ret != "" {
         Some(ret)
